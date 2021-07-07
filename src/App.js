@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.scss'
+import axios from 'axios'
+import Card from './components/Card'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component{
+
+  state = {
+    data: [],
+    error: ""
+  }
+
+  componentDidMount(){
+    axios.get('https://people.canonical.com/~anthonydillon/wp-json/wp/v2/posts.json')
+    .then(result => {
+      this.setState({...this.state, data: result.data})
+    })
+    .catch(error => {
+      this.setState({...this.state, error})
+    })
+  }
+
+  dataMapped(data){
+    return data.map((element)=>{
+      return (<Card post={element}/>)
+    })
+  }
+
+
+  render(){
+    let cards
+    if(this.state.data){
+      cards = this.dataMapped(this.state.data)
+    }
+
+    return (
+      <div className="App row">
+        {cards}
+      </div>
+    )
+  }
 }
-
-export default App;
