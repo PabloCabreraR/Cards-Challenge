@@ -25,10 +25,10 @@ export default class Card extends React.Component{
                   <h4 className="category">{_embedded.["wp:term"][3].length === 0 ? "CLOUD AND SERVER" : (_embedded.["wp:term"][3][0].name).toUpperCase()}</h4>
                   <hr className="u-sv1" />
                   <img className="p-image--shadowed" src={featured_media} alt="{title.rendered}" />
-                  <h3 className="p-card__title"><a>{this.shortTitle(title.rendered)}</a></h3>
+                  <h3 className="p-card__title"><a href="/">{this.shortTitle(title.rendered)}</a></h3>
                 </div>
                 <div className="bottom-text">                
-                    <p className="p-card__content">By <a>{_embedded.author[0].name}</a> on {formatedDate}</p>
+                    <p className="p-card__content">By <a href="/">{_embedded.author[0].name}</a> on {formatedDate}</p>
                     <hr className="u-sv1" />
                     <p className="type">{_embedded.["wp:term"][0][0].name}</p>
                 </div>
