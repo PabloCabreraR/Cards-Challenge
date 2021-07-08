@@ -1,42 +1,39 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import './App.scss'
 import axios from 'axios'
 import Card from './components/Card'
 
-export default class App extends React.Component{
+export default function App(){
+  const [data, setData] = useState([])
+  const [error, setError] = useState('')
 
-  state = {
-    data: [],
-    error: ""
-  }
 
-  componentDidMount(){
+  useEffect(()=>{
     axios.get('https://people.canonical.com/~anthonydillon/wp-json/wp/v2/posts.json')
     .then(result => {
-      this.setState({...this.state, data: result.data})
+      console.log(result.data)
+      setData(result.data)
     })
     .catch(error => {
-      this.setState({...this.state, error})
+      setError(error)
     })
-  }
+  }, [])
 
-  dataMapped(data){
-    return data.map((element)=>{
+
+  let cards
+  if(data.length){
+    cards = data.map((element)=>{
       return (<Card post={element}/>)
     })
   }
 
-
-  render(){
-    let cards
-    if(this.state.data){
-      cards = this.dataMapped(this.state.data)
-    }
-
-    return (
-      <div className="App row">
-        {cards}
-      </div>
-    )
-  }
+  return data.length ? (
+    <div className="App row">
+      {cards}
+    </div>
+  ) : (
+    <div>
+      <p>{error}</p>
+    </div>
+  )
 }
